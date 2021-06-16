@@ -1,5 +1,5 @@
 ---
-title: 使用linux的一些小技巧
+title: linux 不同发行版的使用体验
 categories: [linux]
 comments: true
 ---
