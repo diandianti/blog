@@ -4,7 +4,6 @@ categories: [linux]
 comments: true
 ---
 
-# linux 工具
 
 # Shell
 
