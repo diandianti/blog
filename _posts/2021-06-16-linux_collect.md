@@ -53,7 +53,7 @@ comments: true
 - 相关文档   [https://wiki.archlinux.org/title/Ranger_(简体中文)](https://wiki.archlinux.org/title/Ranger_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 - debian 安装方式 apt install ranger
 - 一张截图
-![pics/ranger.png](pics/ranger.png)
+![pics/ranger.png](https://github.com/diandianti/linux_collection/raw/main/pics/ranger.png)
 
 
 ## Fzf
@@ -112,7 +112,7 @@ comments: true
 
 附图一张
 
-![pics/i3.png](pics/i3.png)
+![pics/i3.png](https://github.com/diandianti/linux_collection/raw/main/pics/i3.png)
 
 ## dwm
 
