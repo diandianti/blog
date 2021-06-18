@@ -1,5 +1,5 @@
 ---
-title: linux 工具
+title: linux 实用软件整理
 categories: [linux]
 comments: true
 ---
