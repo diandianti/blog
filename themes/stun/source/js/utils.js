@@ -218,7 +218,7 @@ Stun.utils = Stun.$u = {
       'background-color: #ffbca2; padding: 8px; font-size: 14px;'
     var stunNameStyle = 'background-color: #eaf8ff;'
 
-    console.log(
+    /*console.log(
       '%c%s%c%s%c%s',
       stunInfoStyle,
       stunInfo,
@@ -226,7 +226,8 @@ Stun.utils = Stun.$u = {
       stunURL,
       stunNameStyle,
       stunNameStr
-    )
+    )*/
+
   },
   /**
    * Change the event code to keyCode.
