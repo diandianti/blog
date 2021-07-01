@@ -142,9 +142,9 @@ header:
     # In theme directory (source/images): /images/avatar.png
     # In site directory (source/uploads): /uploads/avatar.png
     # You can also use a link of image.
-    url:
+    url: /uploads/bg.jpg
   # Mask effect of the background image.
-  mask:/uploads/bg.jpg
+  mask:
     enable: true
     # Opacity of the mask (value: 0 ~ 1)
     opacity: 0.5
