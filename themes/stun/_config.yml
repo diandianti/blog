@@ -138,14 +138,14 @@ header:
   height: 80%
   # Background image of site header.
   bg_image:
-    enable: false
+    enable: true
     # In theme directory (source/images): /images/avatar.png
     # In site directory (source/uploads): /uploads/avatar.png
     # You can also use a link of image.
     url:
   # Mask effect of the background image.
-  mask:
-    enable: false
+  mask:/uploads/bg.jpg
+    enable: true
     # Opacity of the mask (value: 0 ~ 1)
     opacity: 0.5
   nav:
