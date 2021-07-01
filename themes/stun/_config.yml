@@ -135,7 +135,7 @@ header:
     # Whether to show on the article page.
     post: true
   # If you set a percentage, it will be calculated based on the height of screen (Supports all CSS units)
-  height: 80%
+  height: 100%
   # Background image of site header.
   bg_image:
     enable: true
@@ -147,7 +147,7 @@ header:
   mask:
     enable: true
     # Opacity of the mask (value: 0 ~ 1)
-    opacity: 0.5
+    opacity: 0.8
   nav:
     # Height of the navigation bar (Supports all CSS units)
     height: 50px
