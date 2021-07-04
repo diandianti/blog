@@ -3,7 +3,7 @@ title: linux软件整理
 date: 2021/6/20 20:00:00
 update: 2021/7/4 17:20:00
 tags: linux
-categories:总结
+categories: 总结
 ---
 
 我大概是从研究生的时候就开始使用linux，并将其作为主力系统。下面是我自己在使用linux过程中，使用的一些比较好用的软件。
