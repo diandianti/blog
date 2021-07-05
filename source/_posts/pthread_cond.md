@@ -34,7 +34,7 @@ int pthread_cond_broadcast(pthread_cond_t * cond);
 
 # 详情
 
-[条件变量]: https://docs.oracle.com/cd/E19253-01/819-7051/6n919hpai/index.html
+[oracle 多线程指南中对于条件变量的描述](https://docs.oracle.com/cd/E19253-01/819-7051/6n919hpai/index.html)
 
 # 练习
 
