@@ -135,7 +135,7 @@ header:
     # Whether to show on the article page.
     post: false
   # If you set a percentage, it will be calculated based on the height of screen (Supports all CSS units)
-  height: 100%
+  height: 80%
   # Background image of site header.
   bg_image:
     enable: true
