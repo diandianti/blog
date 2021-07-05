@@ -5,9 +5,8 @@ tags:
 - C
 - linux
 categories: C
+excerpt: 本文是对于C语言中fork函数的一些简单介绍。
 ---
-
-本文是对于C语言中fork函数的一些简单介绍。
 
 
 # 简介
