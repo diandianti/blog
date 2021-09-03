@@ -60,7 +60,7 @@ categories: C
 ```c
 #include "showtime.h"
 
-int main(void)
+void main(void)
 {
     TIME_START(30, "Test");
         printf("Test show time!\n");
