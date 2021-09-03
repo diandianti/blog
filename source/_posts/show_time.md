@@ -13,7 +13,7 @@ categories: C
 我想使用最简单的方式来计时，最好是直接输入一行代码就可以，而且不能依赖额外的库,所以我使用了宏定义的形式。尝试了一下使用一行代码会比较繁琐，所以需要添加两行代码来统计。
 
 ```c
-// showtime.c
+// showtime.h
 
 #ifndef _SHOWTIME_
 #define _SHOWTIME_
