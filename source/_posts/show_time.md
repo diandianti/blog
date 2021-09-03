@@ -60,11 +60,12 @@ categories: C
 ```c
 #include "showtime.h"
 
-void main(void)
+int main(void)
 {
     TIME_START(30, "Test");
         printf("Test show time!\n");
     TIME_END;
+    return 0;
 }
 
 ```
