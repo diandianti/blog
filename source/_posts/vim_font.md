@@ -13,7 +13,7 @@ excerpt: 人闲着的时候总想找点事干。
 
  <img src="https://s3.jpg.cm/2021/09/03/ItccXC.png" style="zoom:67%;" />
     Source Insight界面（网上找的图）
-<img src="https://s3.jpg.cm/2021/09/03/ItXCC4.png" style="zoom:67%;" />
+![vim界面](https://s3.jpg.cm/2021/09/03/ItXCC4.png "vim界面")
     vim界面（我的）
 
 # 如何实现
