@@ -11,7 +11,7 @@ excerpt: 人闲着的时候总想找点事干。
 # 起因
 有一天在写代码的时候突然就感觉vim的语法高亮一点都不明显，所有的文字都是一个字体很难分辨出那个是那个（其实就是写代码写烦了）。随即我就想到了Source Insight这个软件，它可以使用不同大小的字体来显示函数名、变量名等元素。但是 这个软件是收费的，但是我的钱包也不咋富裕，所以只能自力更生了。
 
- <img src="https://s3.jpg.cm/2021/09/03/ItccXC.png" style="zoom:67%;" />
+![vim界面](https://s3.jpg.cm/2021/09/03/ItccXC.png)
     Source Insight界面（网上找的图)
  
 ![vim界面](https://s3.jpg.cm/2021/09/03/ItXCC4.png)
@@ -81,4 +81,4 @@ highlight Function cterm=bold, italic
 
 如图： 
 
- <img src="https://s3.jpg.cm/2021/09/03/Itc3iO.png" style="zoom:80%;" />
+![vim界面](https://s3.jpg.cm/2021/09/03/Itc3iO.png)
