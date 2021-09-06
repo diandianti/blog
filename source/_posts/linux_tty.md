@@ -90,7 +90,15 @@ apt-get install nsnake
 这个软件是一个终端的看图软件，原理是将图像转为字符画的形式查看，虽然是全损画质，但是可以应急
 
 ![原图](https://s3.jpg.cm/2021/09/06/Itixsk.png)
+原图
+
 ![asciiview](https://s3.jpg.cm/2021/09/06/Itiiei.png)
+使用asciiview查看
+
+可以使用这个命令来安装：
+```bash
+apt-get install nsnake
+```
 
 # END
 未完待续，后续有好玩的软件会继续补充。
