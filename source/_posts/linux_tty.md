@@ -33,7 +33,7 @@ apt-get install cowsay
 
 ![lolcat](https://s3.jpg.cm/2021/09/06/ItTHnr.png)
 
-github页面 https://github.com/busyloop/lolcat，或者可以使用snap命令来安装：
+github页面 https://github.com/busyloop/lolcat     或者可以使用snap命令来安装：
 ```bash
 sudo snap install lolcat
 ```
@@ -43,7 +43,7 @@ sudo snap install lolcat
 
 ![nyancat](https://s3.jpg.cm/2021/09/06/ItTrwz.gif)
 
-github页面 https://github.com/klange/nyancat， 或者对于debian系发行版可以使用这个命令来安装：
+github页面 https://github.com/klange/nyancat     或者对于debian系发行版可以使用这个命令来安装：
 ```bash
 apt-get install nyancat
 ```
