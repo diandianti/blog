@@ -11,7 +11,7 @@ excerpt: cmake的简单教程，介绍的内容都比较基础，新手可以参
 
 # 简介
 
-最开始学习c语言的时候使用的是vs studio之类的IDE，那个时候不用管依赖库，也不用管如何编译，把所有的函数都放进一个main.c里面就可以了。后来在实际的工程中接触到了Makefile 与 Cmake，但是一直都是在改别人已经写好的Cmake文件，没有系统地学习过cmake文件的语法。在查找Cmake的文档的时候找到了一份官方的教程,  [https://cmake.org/cmake/help/latest/guide/tutorial/index.html](https://cmake.org/cmake/help/latest/guide/tutorial/index.html) 。感觉写的还不错，将其翻译为中文，并稍加整理，自己编写了相关的工程文件。
+最开始学习c语言的时候使用的是vs之类的IDE，那个时候不用管依赖库，也不用管如何编译，把所有的函数都放进一个main.c里面就可以了。后来在实际的工程中接触到了Makefile 与 Cmake，但是一直都是在改别人已经写好的Cmake文件，没有系统地学习过cmake文件的语法。在查找Cmake的文档的时候找到了一份官方的教程,  [https://cmake.org/cmake/help/latest/guide/tutorial/index.html](https://cmake.org/cmake/help/latest/guide/tutorial/index.html) 。感觉写的还不错，将其翻译为中文，并稍加整理，自己编写了相关的工程文件。
 
 我自己实现的工程文件在 [https://github.com/diandianti/cmake_tutorial](https://github.com/diandianti/cmake_tutorial)
 
