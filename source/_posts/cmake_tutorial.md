@@ -846,13 +846,13 @@ option(USE_MYMATH "Use tutorial provided math implementation" ON)
 if(USE_MYMATH)
 
     # 为库MathFunctions 添加一个定义 “USE_MYMATH”
-		# 对于于 “#ifdef USE_MYMATH”
+    # 对于于 “#ifdef USE_MYMATH”
     target_compile_definitions(MathFunctions PRIVATE "USE_MYMATH")
 
-		# 添加一个程序来生成 Table.h
+    # 添加一个程序来生成 Table.h
     add_executable(MakeTable MakeTable.cpp)
 
-		# 添加一个自定义命令
+    # 添加一个自定义命令
     add_custom_command(
         OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/Table.h
         COMMAND MakeTable ${CMAKE_CURRENT_BINARY_DIR}/Table.h
@@ -1061,12 +1061,12 @@ which is prefixed in the source directory.
 
 # 这个地方用到了生成表达式
 target_include_directories(MathFunctions
-                           INTERFACE
-														# 编译的时候使用当前路径
-                            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-														# 安装的时候使用对应的include路径
-                            $<INSTALL_INTERFACE:include>
-                           )
+  INTERFACE
+  # 编译的时候使用当前路径
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+  # 安装的时候使用对应的include路径
+  $<INSTALL_INTERFACE:include>
+)
 
 ... ...
 ```
