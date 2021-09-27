@@ -1,6 +1,7 @@
 ---
 title: CMake简单教程
 date: 2021/9/16 21:00:00
+update: 2021/9/27 21:00:00
 tags:
 - cmake
 - linux
@@ -798,3 +799,372 @@ CPack: - package: /datasets/learn/cmake/Tutorial_part7/build/Tutorial-1.0-Linux.
 ```bash
 cpack -G ZIP -C Debug # 将文件打包为zip格式
 ```
+
+
+
+# 动态库与静态库的选择
+
+在前面的章节中使用了 “add_library()”命令来添加一个依赖库，一个依赖库可以为静态库（STATIC）、动态库（SHARED）等（还有MODULE与OBJECT，但是我不知道这两个该怎么翻译）。
+
+在本章中将添加一个选项来控制是否将依赖库编译为动态库，这一过程主要依赖一个Cmake中的变量“BUILD_SHARED_LIBS”。当然，并不是只有这一种方式，还可以通过设置编译的选择来控制，但是这种方法不是本章的重点。
+
+第一步的修改是对于最外层的CMakeList.txt文件
+
+```makefile
+... ...
+
+# 设置静态库的存放位置为 “整个工程二进制文件的目录”
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+# 设置动态库的存放位置为 “整个工程二进制文件的目录”
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+# 设置运行环境目录为  “整个工程二进制文件的目录”
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+
+# 添加一个选项来控制变量 BUILD_SHARED_LIBS 默认值为 ON
+option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
+
+... ...
+add_subdirectory(MathFunctions)
+... ...
+```
+
+在最外层的cmake文件中，直接将子文件夹 MathFunctions 添加进了工程，即无论如何都会编译这个库，所以需要在文件 MathFunctions/CMakeList.txt文件中添加选项来控制是否使用自定义的平方根库。
+
+```makefile
+# 添加一个库
+add_library(MathFunctions MathFunctions.cpp)
+
+# 确定include的路径
+target_include_directories(MathFunctions
+          INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
+          )
+
+# 添加一个选项来控制是否使用 自定义的平方根库
+option(USE_MYMATH "Use tutorial provided math implementation" ON)
+
+# 如果USE_MYMATH为真
+if(USE_MYMATH)
+
+    # 为库MathFunctions 添加一个定义 “USE_MYMATH”
+		# 对于于 “#ifdef USE_MYMATH”
+    target_compile_definitions(MathFunctions PRIVATE "USE_MYMATH")
+
+		# 添加一个程序来生成 Table.h
+    add_executable(MakeTable MakeTable.cpp)
+
+		# 添加一个自定义命令
+    add_custom_command(
+        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/Table.h
+        COMMAND MakeTable ${CMAKE_CURRENT_BINARY_DIR}/Table.h
+        DEPENDS MakeTable
+        )
+
+		# 添加一个静态库，这个静态库中包含了自定义计算平方根的算法
+    add_library(SqrtLibrary STATIC
+                mysqrt.cpp
+                ${CMAKE_CURRENT_BINARY_DIR}/Table.h
+                )
+		# 指定静态库的include路径
+    target_include_directories(SqrtLibrary PRIVATE
+                ${CMAKE_CURRENT_BINARY_DIR}
+                )
+
+		# 如果不添加这一句会导致编译出错
+		# 添加之后相当于为 g++ 添加了 “-fPIC” 参数
+    set_target_properties(SqrtLibrary PROPERTIES
+        POSITION_INDEPENDENT_CODE ${BUILD_SHARED_LIBS}
+        )
+
+		# 将MathFunctions库依赖SqrtLibrary
+    target_link_libraries(MathFunctions PRIVATE SqrtLibrary)
+endif()
+
+target_compile_definitions(MathFunctions PRIVATE "EXPORTING_MYMATH")
+
+set(installable_libs MathFunctions)
+
+if(TARGET SqrtLibrary)
+    list(APPEND installable_libs SqrtLibrary)
+endif()
+
+install(TARGETS ${installable_libs} DESTINATION lib)
+install(FILES MathFunctions.h DESTINATION include)
+```
+
+修改文件 MathFunctions/mysqrt.cpp 
+
+```makefile
+#include <iostream>
+#include "MathFunctions.h"
+#include "Table.h"
+
+namespace mathfunctions{
+namespace detail {
+
+double mysqrt(double x)
+{
+	if (x <= 0) {
+		return 0;
+	}
+
+	// use the table to help find an initial value
+	double result = x;
+	if (x >= 1 && x < 10) {
+		std::cout << "Use the table to help find an initial value " << std::endl;
+		result = sqrtTable[static_cast<int>(x)];
+	}
+
+	// do ten iterations
+	for (int i = 0; i < 10; ++i) {
+		if (result <= 0) {
+			result = 0.1;
+		}
+		double delta = x - (result * result);
+		result = result + 0.5 * delta / result;
+		std::cout << "Computing sqrt of " << x << " to be " << result << std::endl;
+	}
+
+	return result;
+}
+}
+}
+```
+
+添加文件 MathFunctions/MathFunctions.cp
+
+```makefile
+#include "MathFunctions.h"
+
+#include <cmath>
+
+#ifdef USE_MYMATH
+# include "mysqrt.h"
+#endif
+
+namespace mathfunctions {
+double sqrt(double x)
+{
+//如果定义了 USE_MYMATH那么就使用自定义的平方根函数
+#ifdef USE_MYMATH
+	return detail::mysqrt(x);
+#else
+	return std::sqrt(x);
+#endif
+}
+}
+```
+
+修改文件 MathFunctions/MathFunction.h
+
+```makefile
+#ifndef _MATHFUNCTION_H_
+#define _MATHFUNCTION_H_
+
+// 这一段是为了让编译出的库可以将需要的函数暴露出来
+// 如果不添加，一般情况下没有问题，不过可能会造成外部调用库的程序找不到相应的函数
+#if defined(_WIN32)
+#  if defined(EXPORTING_MYMATH)
+#    define DECLSPEC __declspec(dllexport)
+#  else
+#    define DECLSPEC __declspec(dllimport)
+#  endif
+#else // non windows
+#  define DECLSPEC
+#endif
+
+// 声明函数
+namespace mathfunctions {
+	double DECLSPEC sqrt(double x);
+}
+
+#endif /* _MATHFUNCTION_H_*/
+```
+
+都修改之后编译运行程序即可，修改一下参数，查看编译出的MathFunction库是否为想要的类型。
+
+# 添加生成表达式
+
+生成表达式（Generator Expressions， 我也不知道是不是可以这么翻译，就先这么叫吧）会在你执行cmake的时候执行，它可以用来控制你的编译过程。一般使用生成表达式来控制条件链接与条件include。 控制的条件可以有多种多样，比如 构建的属性 平台等信息。条件表达式的详细文档在 [https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)](https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)) 。 在本章中就不详细介绍了，后续可能会添加上这一部分的内容。
+
+生成表达式一种常见的用法是来控制编译的选项 即 （-fPIC -Wall）等信息。 而且生成表达式一般计较会与接口库同时使用，这样编译选项就可以一次定义，在多处使用。
+
+在此教程中，以设置c++编译标准为例， 对于最外层的CMakeList.txt文件而言：
+
+```makefile
+# 这两行用来设置编译的标准
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# 上面的两行可以被下面的命令代替
+# 需要注意的是，如果使用这种方式来设置c++标准，那么使用到这个库的文件不会受到这句话的影响
+# 即 使用这个库的文件该使用什么标准还是使用什么标准。
+add_library(tutorial_compiler_flags INTERFACE)
+target_compile_features(tutorial_compiler_flags INTERFACE cxx_std_11)
+```
+
+下面就通过添加生成表达式来设置编译的选项：
+
+```makefile
+# 将变量 gcc_like_cxx 设置为引号内的文本
+set(gcc_like_cxx "$<COMPILE_LANG_AND_ID:CXX,ARMClang,AppleClang,Clang,GNU>")
+# 将msvc_cxx 设置为引号内的文本
+set(msvc_cxx "$<COMPILE_LANG_AND_ID:CXX,MSVC>")
+
+# 设置接口库 tutorial_compiler_flags 编译的选项， 因为生成式表达式是可以嵌套使用的，所以
+# 实际的表现为cmake会根据实际存在的编译器来设置不同的编译参数
+target_compile_options(tutorial_compiler_flags INTERFACE
+  "$<${gcc_like_cxx}:$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused>>"
+  "$<${msvc_cxx}:$<BUILD_INTERFACE:-W3>>"
+)
+# 需要注意的是，这里只是为了演示生成表达式的使用方式，所以使用的是 BUILD_INTERFACE 关键词
+# 也就意味着使用这个库的其他程序不会受到这个库编译方式的影响。
+```
+
+# 添加导出配置
+
+本教程在安装与测试的部分说明了如何将编译好的程序和依赖库如何安装到系统，在打包文件的部分说明了如何将编译好的文件打包为一个文件便于发行和传播。在接下来的这一部分将说明如何将必要的信息导出到系统中以便于其他的cmake工程可以使用已经安装好的程序。
+
+第一步是修改 install 命令，为 install 命令添加 EXPORT 参数，对于文件 MathFunctions/CMakeLists.txt
+
+```makefile
+# 最后的 EXPORT 命令将MathFunctions库导出
+install(TARGETS ${installable_libs}
+        DESTINATION lib
+        EXPORT MathFunctionsTargets)
+```
+
+对于最外层的 CMakeList.txt文件， 需要在最后添加如下的命令
+
+```makefile
+# 将刚才导出的库的相关文件安装到目标路径的 lib/cmake/MathFunctions目录下面
+install(EXPORT MathFunctionsTargets
+  FILE MathFunctionsTargets.cmake
+  DESTINATION lib/cmake/MathFunctions
+)
+```
+
+到目前为止，就完成了导出的大部分工作，但是如果这个时候执行cmake命令，会得到以下的错误
+
+```bash
+Target "MathFunctions" INTERFACE_INCLUDE_DIRECTORIES property contains
+path:
+
+  "/Users/robert/Documents/CMakeClass/Tutorial/Step11/MathFunctions"
+
+which is prefixed in the source directory.
+```
+
+这是因为MathFunctions库依赖的include路径是目前的源文件的路径，如果将这个库安装到其他的设备的话是找不到这个目录的，所以需要修改文件 MathFunctions/CMakeList.txt 如下：
+
+```makefile
+... ...
+
+# 这个地方用到了生成表达式
+target_include_directories(MathFunctions
+                           INTERFACE
+														# 编译的时候使用当前路径
+                            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+														# 安装的时候使用对应的include路径
+                            $<INSTALL_INTERFACE:include>
+                           )
+
+... ...
+```
+
+完成这一步修改之后就可以执行cmake命令来编译生成相关的二进制文件了。
+
+在使用cmake的时候会用到 find_package 命令来查找当前设备已经安装的库，为了能够让别的程序在执行 find_package 的时候可以找到 MathFunctions库还需要做其他的一些步骤：
+
+添加一个名为 Config.cmake.in 的文件，内容如下：
+
+```makefile
+# 下面的这一个命令是cmake的一个宏，在运行cmake的时候会被替换为其他的命令
+@PACKAGE_INIT@
+
+include ( "${CMAKE_CURRENT_LIST_DIR}/MathFunctionsTargets.cmake" )
+```
+
+为了能够配置好这个库还需要在最外层的 CMakeLists.txt文件中添加如下的命令：
+
+```makefile
+# 安装命令
+install(EXPORT MathFunctionsTargets
+  FILE MathFunctionsTargets.cmake
+  DESTINATION lib/cmake/MathFunctions
+)
+
+include(CMakePackageConfigHelpers)
+# 使用Config.cmake.in来生成文件MathFunctionsConfig.cmake
+# 并将相应的文件安装到 lib/cmake/example
+configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
+  "${CMAKE_CURRENT_BINARY_DIR}/MathFunctionsConfig.cmake"
+  INSTALL_DESTINATION "lib/cmake/example"
+  NO_SET_AND_CHECK_MACRO
+  NO_CHECK_REQUIRED_COMPONENTS_MACRO
+  )
+# 生成库的版本文件，并指定兼容性
+write_basic_package_version_file(
+  "${CMAKE_CURRENT_BINARY_DIR}/MathFunctionsConfigVersion.cmake"
+  VERSION "${Tutorial_VERSION_MAJOR}.${Tutorial_VERSION_MINOR}"
+  COMPATIBILITY AnyNewerVersion
+)
+
+# 安装文件
+install(FILES
+  ${CMAKE_CURRENT_BINARY_DIR}/MathFunctionsConfig.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/MathFunctionsConfigVersion.cmake
+  DESTINATION lib/cmake/MathFunctions
+  )
+```
+
+# 打包Debug版本与Release版本
+
+cmake可以将工程打包为不同配置版本，为了确认打包的文件是正确的，这里为debug版本的程序加上一个 d 的后缀， 修改最外层的CMakeLists.txt文件
+
+```makefile
+# 声明变量
+set(CMAKE_DEBUG_POSTFIX d)
+add_executable(Tutorial tutorial.cxx)
+
+# 给编译出的程序添加debug的后缀
+set_target_properties(Tutorial PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+
+target_link_libraries(Tutorial PUBLIC MathFunctions)
+```
+
+修改文件 MathFunctions/CMakeLists.txt 为依赖库添加一个版本号
+
+```makefile
+set_property(TARGET MathFunctions PROPERTY VERSION "1.0.0")
+set_property(TARGET MathFunctions PROPERTY SOVERSION "1")
+```
+
+在做好了以上的修改之后，执行一下命令即可
+
+```makefile
+cd debug
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+cmake --build .
+cd ../release
+cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake --build .
+```
+
+在编译之后即可在debug与release文件夹下看到相应的文件。
+
+添加一个名为 MultiCPackConfig.cmake 的文件，内容如下
+
+```makefile
+include("release/CPackConfig.cmake")
+
+set(CPACK_INSTALL_CMAKE_PROJECTS
+    "debug;Tutorial;ALL;/"
+    "release;Tutorial;ALL;/"
+    )
+```
+
+然后在最外层的目录执行命令，即可将debug版本与release版本打包在一起。
+
+```makefile
+cpack --config MultiCPackConfig.cmake
+```p
