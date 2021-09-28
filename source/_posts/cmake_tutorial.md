@@ -996,8 +996,8 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # 上面的两行可以被下面的命令代替
-# 需要注意的是，如果使用这种方式来设置c++标准，那么使用到这个库的文件不会受到这句话的影响
-# 即 使用这个库的文件该使用什么标准还是使用什么标准。
+# 需要注意的是，如果使用这种方式来设置c++标准，意味着使用的标准大于C++11即可
+# 即 如果默认的C++标准为C++14，那么这么设置和默认效果是没有区别的
 add_library(tutorial_compiler_flags INTERFACE)
 target_compile_features(tutorial_compiler_flags INTERFACE cxx_std_11)
 ```
