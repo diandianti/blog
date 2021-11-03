@@ -184,7 +184,7 @@ mi_lib=(so a)
 
 mi_all_ff=(mi_compress mi_image mi_video mi_audio mi_doc mi_excel \
 -    mi_ppt mi_font mi_code mi_web mi_ebook mi_nn mi_bin mi_apk mi_lib mi)
--    mi_ppt mi_font mi_code mi_web mi_ebook mi_nn mi_bin mi_apk mi_lib mi_test)
++    mi_ppt mi_font mi_code mi_web mi_ebook mi_nn mi_bin mi_apk mi_lib mi_test)
 ```
 
 如果要实现某种类型的后处理，直接在文件中添加相关的函数即可：
