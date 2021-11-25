@@ -70,7 +70,7 @@ conda env list
 base                  *  /home/test/miniconda3 #这个环境是默认创建的
 ```
 
-### 如果确定当前的环境名
+### 如何确定当前的环境名
 
 #### 查看shell前面的提示符
 
