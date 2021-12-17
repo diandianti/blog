@@ -119,8 +119,8 @@ base                  *  /home/test/miniconda3 # * 表示目前就在这个环�
 (base) ➜  ~ conda env list
 # conda environments:
 #
-base                  *  /home/changqing_xie/miniconda3
-py27                     /home/changqing_xie/miniconda3/envs/py27
+base                  *  /home/test/miniconda3
+py27                     /home/test/miniconda3/envs/py27
 ```
 
 ### 切换环境
@@ -132,8 +132,8 @@ py27                     /home/changqing_xie/miniconda3/envs/py27
 (py27) ➜  ~ conda env list #此时shell的提示符已经变了
 # conda environments:
 #
-base                     /home/changqing_xie/miniconda3
-py27                  *  /home/changqing_xie/miniconda3/envs/py27 #通过conda env命令查看是否切换成功
+base                     /home/test/miniconda3
+py27                  *  /home/test/miniconda3/envs/py27 #通过conda env命令查看是否切换成功
 ```
 
 如果要回到base环境，可以执行命令：
@@ -150,7 +150,7 @@ conda activate base
 ```bash
 (base) ➜  ~ conda env remove -n nouse #使用-n来指定环境的名字
 
-Remove all packages in environment /home/changqing_xie/miniconda3/envs/nouse:
+Remove all packages in environment /home/test/miniconda3/envs/nouse:
 
 ```
 
