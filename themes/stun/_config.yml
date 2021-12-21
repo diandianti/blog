@@ -732,11 +732,11 @@ math:
 
 # Fancybox
 # See: https://fancyapps.com/fancybox/3/
-fancybox: false
+fancybox: true
 
 # Click to enlarge picture.
 zoom_image:
-  enable: true
+  enable: false
   # The color of mask.
   # (Please use "" to wrap the value)
   mask_color: "rgba(0,0,0,0.6)"
