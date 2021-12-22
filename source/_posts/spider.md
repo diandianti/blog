@@ -108,7 +108,7 @@ def get_proxy_dict():
     http_proxy = None
     https_proxy = None
 
-    while (http_proxy is None) and (https_proxy is None):
+    while (http_proxy is None) or (https_proxy is None):
         res = r.get(proxy_pool_url, headers = header)
         if res.status_code != 200:
             continue
