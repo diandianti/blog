@@ -33,9 +33,9 @@ excerpt: 感觉linux发行版可以更好用一点。
 - 缺点：上手难度高，如果没有足够好的动手能力不建议尝试。
 - 效果图（网上找的别人的， 这个网址： [http://dotshare.it/category/wms/i3/](http://dotshare.it/category/wms/i3/)）
     
-    ![http://dotshare.it/public/images/uploads/8287.png](http://dotshare.it/public/images/uploads/8287.png)
+    ![http://dotshare.it/public/images/uploads/8287.png](https://s6.jpg.cm/2021/12/23/LbFfG5.png)
     
-    ![http://dotshare.it/public/images/uploads/8456.png](http://dotshare.it/public/images/uploads/8456.png)
+    ![http://dotshare.it/public/images/uploads/8456.png](https://s6.jpg.cm/2021/12/23/LbFgXC.png)
     
 
 - 官网，里面有介绍如何安装。  [i3 - improved tiling wm](https://i3wm.org/)
@@ -47,7 +47,7 @@ excerpt: 感觉linux发行版可以更好用一点。
 - 缺点：复杂，甚至配置文件都是头文件的形式，要自己编译，没两把刷子真的不行
 - 效果图，也是刚才的网站找的：
     
-    ![http://dotshare.it/public/images/uploads/8460.png](http://dotshare.it/public/images/uploads/8460.png)
+    ![http://dotshare.it/public/images/uploads/8460.png](https://s6.jpg.cm/2021/12/23/LbFzvt.png)
     
 - 官网：   [dwm - dynamic window manager | suckless.org software that sucks less](https://dwm.suckless.org/)
     
@@ -215,7 +215,7 @@ oh-my-fish: [https://github.com/oh-my-fish/oh-my-fish](https://github.com/oh-my-
 
 终端文件管理软件，类似的还有 [nnn](https://github.com/jarun/nnn)、[lf](https://github.com/gokcehan/lf)，看效果图更能够了解他们的作用
 
-![http://dotshare.it/public/images/uploads/438.png](http://dotshare.it/public/images/uploads/438.png)
+![http://dotshare.it/public/images/uploads/438.png](https://s6.jpg.cm/2021/12/23/LbF4gr.png)
 
 官网： [https://github.com/ranger/ranger](https://github.com/ranger/ranger)
 
