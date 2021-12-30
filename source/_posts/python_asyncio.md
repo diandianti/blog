@@ -6,7 +6,7 @@ tags:
 - python
 - 异步
 categories: python
-excerpt: 感觉linux发行版可以更好用一点。
+excerpt: python? 异步？
 ---
 
 # Python 中的异步
