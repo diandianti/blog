@@ -1,7 +1,7 @@
 ---
 title: 让linux桌面版更好用
 date: 2021/12/23 21:00:00
-update: 2022/11/23 21:00:00
+update: 2021/12/23 21:00:00
 tags:
 - linux
 categories: 总结
